@@ -8,6 +8,9 @@
   width: 100vw;
   height: 5vh;
   background-color: lightgray;
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5em 0;
 }
 
 .main {
@@ -30,6 +33,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 3px;
 }
 
 .sb-text {
@@ -60,4 +64,34 @@
   left: 0.5em;
   top: 0.5em;
   cursor: pointer;
+}
+
+.header-save {
+  border: 1px solid blueviolet;
+  color: blueviolet;
+  padding: 0.1em;
+  padding-right: 1em;
+  font-size: 1.5rem;
+  width: 10vw;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+}
+
+.header-alert {
+  position: absolute;
+  top: 1em;
+  left: 40%;
+  color: black;
+  background-color: rgb(211, 72, 72);
+  padding: 1em 1em;
+  font-size: 1.3rem;
+  width: 15vw;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
 }

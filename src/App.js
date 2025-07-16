@@ -3,6 +3,7 @@ import { ReactFlow, applyNodeChanges, applyEdgeChanges, addEdge,
   useReactFlow,
   useNodesState,
   useEdgesState,
+  Position,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import './App.css'
@@ -15,7 +16,21 @@ export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const { screenToFlowPosition } = useReactFlow();
-  const { nodeId, setNodeId, sbMode, setSBMode, text, setText } = useDnD();
+  const { nodeId, setNodeId, sbMode, setSBMode, text, setText, setCheck } = useDnD();
+
+  useEffect(() => {
+    let l = new Set();
+    setNodes(nds => {
+      nds.map(node => l.add(node.id));
+      setEdges(eds => {
+        eds.map(edge => l.delete(edge.source));
+        setCheck(l.size <= 1);
+        return eds;
+      });
+      return nds;
+    });
+  }, [nodes, edges]);
+  
 
   useEffect(() => {
     setNodes(nds => nds.map(node => {
@@ -72,6 +87,8 @@ export default function App() {
         id: `n${nodeId}`,
         position,
         data: { label: `Click to write message` },
+        sourcePosition: Position.Left,
+        targetPosition: Position.Right,
       };
       setNodeId(nodeId+1);
       setNodes((nds) => nds.concat(newNode));
