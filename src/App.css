@@ -15,6 +15,49 @@
 }
 
 .sidebar {
-  width: 30vw;
+  width: 20vw;
   height: 100vh;
+  border: 1px solid grey;
+  border-top: 0;
+}
+
+.dragNode {
+  border: 1px solid blueviolet;
+  color: blueviolet;
+  padding: 2em;
+  margin: 1em;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sb-text {
+  margin: 0 0.5em;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-size: 1.25rem;
+}
+
+.sb-textarea {
+  margin: 0 0.5em;
+  font-size: 1.25rem;
+  width: 90%;
+  height: 20%;
+}
+
+.sb-text-header {
+  position: relative;
+  font-size: 1.25rem;
+  text-align: center;
+  padding: 0.5em 0;
+  border: 1px solid gray;
+  border-left: 0;
+}
+
+.sb-back {
+  position: absolute;
+  left: 0.5em;
+  top: 0.5em;
+  cursor: pointer;
 }

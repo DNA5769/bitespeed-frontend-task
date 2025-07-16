@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { ReactFlow, applyNodeChanges, applyEdgeChanges, addEdge, 
   useReactFlow,
   useNodesState,
@@ -10,19 +10,46 @@ import Sidebar from './Sidebar';
 import Header from './Header';
 import { useDnD } from './DnDContext';
  
-const initialNodes = [
-  // { id: 'n1', position: { x: 0, y: 0 }, data: { label: 'Node 1' } },
-  // { id: 'n2', position: { x: 0, y: 100 }, data: { label: 'Node 2' } },
-];
-const initialEdges = [
-  // { id: 'n1-n2', source: 'n1', target: 'n2' }
-];
- 
 export default function App() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [nid, setNID] = useState(null);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const { screenToFlowPosition } = useReactFlow();
-  const [nodeId, setNodeId] = useDnD();
+  const { nodeId, setNodeId, sbMode, setSBMode, text, setText } = useDnD();
+
+  useEffect(() => {
+    setNodes(nds => nds.map(node => {
+      if (nid !== null && node.id === nid)
+        return {
+          ...node,
+          data: {
+            ...node.data,
+            label: text,
+          },
+        };
+      return node;
+    }));
+  }, [text])
+  
+
+  const onNodeClick = useCallback(
+    (event) => {
+      event.preventDefault();
+      if (sbMode === null)
+      {
+        setNID(event.target.dataset.id)
+        setSBMode(event.target.dataset.id);
+        setNodes(nds => nds.map(node => {
+          if (node.id === event.target.dataset.id)
+            setText(node.data.label);
+          return node;
+        }));
+      }
+      else
+        setSBMode(null);
+    },
+    [],
+  );
  
   const onConnect = useCallback(
     (params) => setEdges((edgesSnapshot) => addEdge(params, edgesSnapshot)),
@@ -44,7 +71,7 @@ export default function App() {
       const newNode = {
         id: `n${nodeId}`,
         position,
-        data: { label: `...` },
+        data: { label: `Click to write message` },
       };
       setNodeId(nodeId+1);
       setNodes((nds) => nds.concat(newNode));
@@ -60,7 +87,7 @@ export default function App() {
     <div className='app'>
       <Header />
       <div className='main'>
-        <div style={{ width: '70vw', height: '95vh' }}>
+        <div style={{ width: '80vw', height: '95vh' }}>
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -70,6 +97,7 @@ export default function App() {
             onDrop={onDrop}
             onDragStart={onDragStart}
             onDragOver={onDragOver}
+            onNodeClick={onNodeClick}
             fitView
           />
         </div>
