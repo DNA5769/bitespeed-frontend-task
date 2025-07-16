@@ -1,11 +1,15 @@
 import React from 'react';
 
-const Sidebar = () => {
-  return (
-    <div className='sidebar'>
-        
-    </div>
-  );
-}
+export default () => {
+  const onDragStart = event => {
+    event.dataTransfer.effectAllowed = 'move';
+  };
 
-export default Sidebar;
+  return (
+    <aside>
+      <div className="dndnode input" onDragStart={(event) => onDragStart(event)} draggable>
+        Input Node
+      </div>
+    </aside>
+  );
+};
