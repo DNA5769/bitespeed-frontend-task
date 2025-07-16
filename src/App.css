@@ -3,3 +3,18 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+.header {
+  width: 100vw;
+  height: 5vh;
+  background-color: lightgray;
+}
+
+.main {
+  display: flex;
+}
+
+.sidebar {
+  width: 30vw;
+  height: 100vh;
+}
