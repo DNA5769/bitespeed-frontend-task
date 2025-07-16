@@ -8,9 +8,10 @@ export const DnDProvider = ({ children }) => {
   const [text, setText] = useState("");
   const [alert, setAlert] = useState(false);
   const [check, setCheck] = useState(true);
+  const [rfInstance, setRfInstance] = useState(null);
 
   return (
-    <DnDContext.Provider value={{nodeId, setNodeId, sbMode, setSBMode, text, setText, alert, setAlert, check, setCheck}}>
+    <DnDContext.Provider value={{nodeId, setNodeId, sbMode, setSBMode, text, setText, alert, setAlert, check, setCheck, rfInstance, setRfInstance}}>
       {children}
     </DnDContext.Provider>
   );

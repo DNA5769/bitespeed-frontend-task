@@ -1,9 +1,10 @@
-import React from 'react';
+import { React, useCallback} from 'react';
 import { useDnD } from './DnDContext';
 
 const Header = () => {
-  const { alert, setAlert, check } = useDnD();
-  const onSave = () => {
+  const { alert, setAlert, check, rfInstance } = useDnD();
+
+  const onSave = useCallback(() => {
     if (!check)
     {
         setAlert(true);
@@ -11,7 +12,12 @@ const Header = () => {
             setAlert(false);
         }, "1000");
     }
-  }
+    else if (rfInstance) {
+      const flow = rfInstance.toObject();
+      localStorage.setItem('flow-save', JSON.stringify(flow));
+    }
+  }, [rfInstance]);
+
   return (
     <div className='header'>
         <div></div>

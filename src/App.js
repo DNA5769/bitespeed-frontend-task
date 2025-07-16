@@ -15,8 +15,24 @@ export default function App() {
   const [nid, setNID] = useState(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const { screenToFlowPosition } = useReactFlow();
-  const { nodeId, setNodeId, sbMode, setSBMode, text, setText, setCheck } = useDnD();
+  const { screenToFlowPosition, setViewport } = useReactFlow();
+  const { nodeId, setNodeId, sbMode, setSBMode, text, setText, setCheck, setRfInstance } = useDnD();
+
+  useEffect(() => {
+    const restoreFlow = async () => {
+      const flow = JSON.parse(localStorage.getItem('flow-save'));
+ 
+      if (flow) {
+        const { x = 0, y = 0, zoom = 1 } = flow.viewport;
+        setNodeId(flow.nodes+1);
+        setNodes(flow.nodes || []);
+        setEdges(flow.edges || []);
+        setViewport({ x, y, zoom });
+      }
+    };
+ 
+    restoreFlow();
+  }, []);
 
   useEffect(() => {
     let l = new Set();
@@ -24,6 +40,7 @@ export default function App() {
       nds.map(node => l.add(node.id));
       setEdges(eds => {
         eds.map(edge => l.delete(edge.source));
+        console.log(l)
         setCheck(l.size <= 1);
         return eds;
       });
@@ -115,6 +132,7 @@ export default function App() {
             onDragStart={onDragStart}
             onDragOver={onDragOver}
             onNodeClick={onNodeClick}
+            onInit={setRfInstance}
             fitView
           />
         </div>
